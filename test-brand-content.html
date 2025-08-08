@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>브랜드 콘텐츠 테스트</title>
+</head>
+<body>
+    <h1>브랜드 콘텐츠 추출 테스트</h1>
+    <div>
+        <input type="text" id="keyword" placeholder="검색어 입력" value="사회복지사">
+        <button onclick="testBrandContent()">브랜드 콘텐츠 테스트</button>
+    </div>
+    <div id="result"></div>
+
+    <script>
+        async function testBrandContent() {
+            const keyword = document.getElementById('keyword').value;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = '테스트 중...';
+            
+            try {
+                const response = await fetch('/api/brand-content', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ keyword }),
+                });
+                
+                const data = await response.json();
+                
+                if (data.brandContents && data.brandContents.length > 0) {
+                    let html = '<h2>브랜드 콘텐츠 결과:</h2>';
+                    data.brandContents.forEach((content, index) => {
+                        html += `
+                            <div style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
+                                <h3>${index + 1}. ${content.title}</h3>
+                                <p><strong>작성자:</strong> ${content.author}</p>
+                                <p><strong>설명:</strong> ${content.description}</p>
+                                <p><strong>링크:</strong> <a href="${content.link}" target="_blank">${content.link}</a></p>
+                            </div>
+                        `;
+                    });
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.innerHTML = '<p>브랜드 콘텐츠를 찾을 수 없습니다.</p>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p>오류 발생: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html> 
