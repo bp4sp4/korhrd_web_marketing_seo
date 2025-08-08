@@ -127,7 +127,7 @@ export default function AnalysisPage() {
             {/* 메인 요약 카드 */}
             <div className="bg-white rounded-2xl shadow-xl p-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-6">
-                📊 "{analysisResult.keyword}" 종합 분석 결과
+                📊 &ldquo;{analysisResult.keyword}&rdquo; 종합 분석 결과
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
